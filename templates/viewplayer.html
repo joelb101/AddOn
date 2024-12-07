@@ -9,6 +9,7 @@
       <li class="list-group-item">Name: {{ player.name }}</li>
       <li class="list-group-item">Year: {{ player.age }}</li>
       <li class="list-group-item"><a href="{{url_for('editplayer',id=player.id)}}">Edit</a></li>
+      <li class="list-group-item"><a href="{{url_for('deleteplayer',id=player.id)}}">Delete</a></li>
     </ul>
   </div>
   {% endfor %}

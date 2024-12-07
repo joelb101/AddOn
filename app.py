@@ -80,4 +80,10 @@ def editplayer(id):
         return redirect(url_for('viewplayers'))
     return render_template('editplayer.html', player=player)
 
+@app.route('/deleteplayer/<int:id>')
+def deleteplayer(id):
+    player = Player.query.get(id)
+    db.session.delete(player)
+    db.session.commit()
+    return redirect(url_for('viewplayers'))
 app.run(debug=True)
