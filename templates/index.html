@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Page</title>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+</head>
+<body>
+    {% block content %}
+    <h1>This is my About page</h1>
+    <h1>Welcome , {{name}}</h1>
+    <p style="color : blue">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Sapiente blanditiis eum quo eveniet ipsum labore possimus, dolores libero similique delectus rem fuga accusamus sit fugit quas quod illum, temporibus voluptas.
+    Architecto labore asperiores repellat laudantium hic quisquam nam doloribus omnis, dolores, ex quo accusantium repudiandae nulla, obcaecati tenetur iste? Doloremque voluptatem fugiat libero laborum vitae accusamus vero eligendi perspiciatis repellendus.
+    Animi corporis magni suscipit provident repudiandae explicabo obcaecati est tempora. Inventore expedita voluptate rem explicabo hic. Officiis vel tempore magni laboriosam dolor porro neque quas voluptatibus labore, dignissimos repellendus inventore!
+    Recusandae doloremque blanditiis laboriosam minima quidem magni expedita libero ea porro excepturi, facilis dolorum, eum nulla error, fugit asperiores tempore ullam deleniti reprehenderit unde enim magnam. At ea corrupti cupiditate.
+    Ipsa est perspiciatis pariatur cumque, libero maxime asperiores eos aperiam! Neque, quibusdam voluptatem nihil vitae, asperiores, cupiditate ea pariatur ipsa nostrum modi fugit alias aspernatur itaque aut eveniet non a.
+    Repudiandae, culpa nemo tenetur ea iste porro qui voluptates. Earum eveniet magni placeat quos. Repudiandae, natus fugiat autem dolore, magnam rerum, deserunt dicta laborum adipisci ratione optio nesciunt commodi ullam.
+    Atque sapiente dolor quam porro delectus labore, odit sit repellat repellendus esse suscipit dolore nihil numquam impedit quisquam deleniti accusantium, aliquam aliquid saepe unde enim tenetur neque id quasi! Accusamus.
+    Deleniti quasi veniam libero ad tempore itaque recusandae, doloremque laboriosam adipisci delectus dolore mollitia quas modi aperiam dignissimos omnis cum minus sit magnam harum non vitae, ducimus molestiae esse! Velit.
+    Soluta, consequuntur ad tenetur, aliquam doloremque ut corrupti id debitis blanditiis delectus alias reprehenderit ea. In saepe cupiditate ut natus veritatis aperiam? Laudantium laborum nesciunt aut quae quas veniam sint.
+    Molestias repudiandae eius ratione iste temporibus accusamus dolorem repellat laborum voluptas perferendis iure omnis ipsam at pariatur, culpa illum. Quia repellat commodi eligendi magni sequi, esse tempora eveniet ipsam tempore?</p>
+    
+    
+        {% if age>40 %}
+            <h2>you are eligible to play in our t20 league</h2>
+        {% else %}
+            <h2>you are not eligible to play</h2>
+        {% endif %}
+        <p>The runs are: </p>
+        <ol>
+        {% for r in runs %}
+                
+                    <li>{{r}}</li>
+        
+        {% endfor %}
+        </ol>
+    
+
+    {% endblock %}
+</body>
+</html>
