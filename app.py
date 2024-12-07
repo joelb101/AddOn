@@ -69,4 +69,15 @@ app.app_context().push()
 db.create_all()
 #@app.route('/addplayer',method=['POST'])
 
+@app.route('/editplayer/<int:id>',methods=['GET','POST'])
+def editplayer(id):
+    player = Player.query.get(id)
+    if request.method == 'POST':
+        player=Player.query.get(id)
+        player.name = request.form['name']
+        player.age = request.form['age']
+        db.session.commit()
+        return redirect(url_for('viewplayers'))
+    return render_template('editplayer.html', player=player)
+
 app.run(debug=True)
