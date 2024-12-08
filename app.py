@@ -3,6 +3,8 @@
 
 from flask import Flask, render_template, request,redirect
 from flask import url_for
+from flask-login import LoginManager, UserMixin, login_user, logout_user, login_required
+from werkzeug.security import generate_password_hash, check_password_hash
 from flask_sqlalchemy import SQLAlchemy
 
 
@@ -10,6 +12,12 @@ app = Flask(__name__)  #class object
 
 # def test(st):
 # route(path)
+
+app.secret_key = 'MITS@123'
+
+login_manager = LoginManager()
+login_manager.login_view = 'login'
+login_manager.init_app(app)
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///mydatabase.db'
 db=SQLAlchemy(app)
@@ -59,6 +67,12 @@ def addplayer():
 def viewplayers():
     players = Player.query.all()
     return render_template("viewplayer.html",players=players)
+
+class User(UserMixin,db.model):
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(50), nullable=False, unique=True)
+    email = db.Column(db.String(50), nullable=False, unique=True)
+    password = db.Column(db.String(50), nullable=False)
 
 class Player(db.Model):
     id = db.Column(db.Integer, primary_key=True)
