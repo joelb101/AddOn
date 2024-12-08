@@ -1,9 +1,9 @@
 
 
 
-from flask import Flask, render_template, request,redirect
+from flask import Flask, render_template, request,redirect,flash
 from flask import url_for
-from flask-login import LoginManager, UserMixin, login_user, logout_user, login_required
+from flask_login import LoginManager, UserMixin, login_user, logout_user, login_required
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_sqlalchemy import SQLAlchemy
 
@@ -61,14 +61,63 @@ def addplayer():
         return name + " " + age
     else:
         return render_template("addplayer.html")
-    
+
+@app.route('/signup', methods=['GET', 'POST'])
+def signup():
+    if request.method == 'POST':
+        username = request.form['name']
+        email = request.form['email']
+        password = request.form['password']
+        
+        user = User.query.filter_by(email=email).first()
+        if user:
+            flash("Email already exist")
+            return redirect(url_for('login'))
+        else:
+            new_user = User(email=email, username=username, password=generate_password_hash(password, method='sha256'))
+            db.session.add(new_user)
+            db.session.commit()
+            return redirect(url_for('login'))
+    else:
+        return render_template('signup.html')   
+
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        email = request.form['email']
+        password = request.form['password']
+
+        user = User.query.filter_by(email=email).first()
+
+        if user and check_password_hash(user.password, password):
+            login_user(user)
+            return redirect(url_for('home'))
+        else:
+            flash("Invalid email or password")
+            return redirect(url_for('login')) 
+    return render_template('login.html')
+
+@app.route('/profile')
+def profile():
+    return render_template('profile.html') 
+
+@app.route('/logout')
+@login_required
+def logout():
+    logout_user()
+    return redirect(url_for('login'))
+
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.get(int(user_id))
 
 @app.route('/viewplayers')
 def viewplayers():
     players = Player.query.all()
     return render_template("viewplayer.html",players=players)
 
-class User(UserMixin,db.model):
+class User(UserMixin,db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(50), nullable=False, unique=True)
     email = db.Column(db.String(50), nullable=False, unique=True)
