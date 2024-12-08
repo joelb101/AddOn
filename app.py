@@ -6,6 +6,7 @@ from flask import url_for
 from flask_login import LoginManager, UserMixin, login_user, logout_user, login_required
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_sqlalchemy import SQLAlchemy
+from flask_login import current_user
 
 
 app = Flask(__name__)  #class object
@@ -74,7 +75,7 @@ def signup():
             flash("Email already exist")
             return redirect(url_for('login'))
         else:
-            new_user = User(email=email, username=username, password=generate_password_hash(password, method='sha256'))
+            new_user = User(email=email, username=username, password=generate_password_hash(password, method='pbkdf2:sha256'))
             db.session.add(new_user)
             db.session.commit()
             return redirect(url_for('login'))
@@ -100,7 +101,8 @@ def login():
 
 @app.route('/profile')
 def profile():
-    return render_template('profile.html') 
+    print(current_user.username)
+    return render_template('profile.html',user=current_user) 
 
 @app.route('/logout')
 @login_required
